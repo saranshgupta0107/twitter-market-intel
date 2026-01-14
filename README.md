@@ -116,11 +116,9 @@ Verify:
   - Market bias visualization
 
 
-## Sample Results
+## Video Demonstration
 
-- With limited real-time samples, most market hashtags exhibit neutral sentiment, while occasional bullish or bearish bias appears depending on prevailing news flow.
-
-- This reflects realistic market noise and avoids forced signals.
+- Link - https://drive.google.com/file/d/1E5d6P6OLFVkIs1RoYWsvNXYpl5GrEDR3/view?usp=sharing 
 
 
 ## Limitations & Future Improvements
