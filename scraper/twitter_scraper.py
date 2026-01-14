@@ -34,7 +34,9 @@ class TwitterScraper:
                     if len(tweets) >= target_count:
                         break
 
-                    text = card.text
+                    raw = card.text                    
+                    text = self._clean_card_text(raw)
+
                     if not text:
                         continue
 
@@ -42,7 +44,10 @@ class TwitterScraper:
                         continue
 
                     seen_texts.add(text)
-                    tweets.append({"content": text})
+                    tweets.append({
+                        "content": raw,
+                        "parsed_text": text
+                    })
 
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(random.uniform(2, 3))
@@ -79,6 +84,18 @@ class TwitterScraper:
         ]
         return any(m in self.driver.page_source for m in error_markers)
 
+    def _clean_card_text(self, raw_text):
+        lines = raw_text.split("\n")
+        cleaned = []
+
+        for line in lines:
+            if line.startswith("@"):
+                continue
+            if "·" in line and "m" in line:
+                continue
+            cleaned.append(line)
+
+        return " ".join(cleaned).strip()
 
 
 

@@ -5,14 +5,16 @@ from processing.deduplicator import Deduplicator
 from processing.storage import save_parquet
 from analysis.text_features import vectorize
 from analysis.signal_engine import compute_signal
-import pandas as pd
 from utils.shutdown import GracefulKiller
+from analysis.simple_sentiment import sentiment_score
+from analysis.visualization import plot_sentiment
 import sys
 import threading
+import pandas as pd
 
 HASHTAGS = ["nifty50", "sensex", "banknifty", "intraday"]
 
-TWEETS_PER_KEYWORD = 10
+TWEETS_PER_KEYWORD = 20
 
 def wait_for_enter(killer):
     input("↩️  Press ENTER to stop scraping gracefully...\n")
@@ -50,7 +52,7 @@ def main():
 
             for t in tweets:
                 t["hashtag"] = tag
-                t["clean_text"] = normalize_text(t["content"])
+                t["clean_text"] = normalize_text(t["parsed_text"])
                 if dedup.is_new(t["clean_text"]):
                     all_tweets.append(t)
 
@@ -62,6 +64,13 @@ def main():
 
         if all_tweets:
             df = pd.DataFrame(all_tweets)
+            df["sentiment"] = df["clean_text"].apply(sentiment_score)
+
+            print("\n📊 Sentiment Summary:")
+            print(df.groupby("hashtag")["sentiment"].mean())
+
+            plot_sentiment(df)
+
             save_parquet(df, "data/processed/market_tweets.parquet")
             print(f"✅ Saved {len(all_tweets)} tweets")
 
