@@ -3,8 +3,6 @@ from scraper.twitter_scraper import TwitterScraper
 from processing.cleaner import normalize_text
 from processing.deduplicator import Deduplicator
 from processing.storage import save_parquet
-from analysis.text_features import vectorize
-from analysis.signal_engine import compute_signal
 from utils.shutdown import GracefulKiller
 from analysis.simple_sentiment import sentiment_score
 from analysis.visualization import plot_sentiment
