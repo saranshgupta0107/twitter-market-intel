@@ -31,15 +31,15 @@ These represent high-liquidity Indian indices commonly discussed by traders and 
 ## System Architecture
 
 Twitter/X (Live DOM)
-        ↓
+        ->
 Selenium Scraper
-        ↓
+        ->
 Text Cleaning & Deduplication
-        ↓
+        ->
 Feature Engineering (NLP)
-        ↓
+        ->
 Signal Aggregation
-        ↓
+        ->
 Parquet Storage + Visualization
 
 
